@@ -1,0 +1,30 @@
+import { pool } from "../../db/db.ts";
+
+export async function getUsers() {
+    const result = await pool.query(`
+        SELECT id_user, nickname, email, saldo, role, created_at
+        FROM users
+        ORDER BY id_user ASC
+    `);
+
+    return result.rows;
+}
+
+export async function deleteUser(id: number) {
+    await pool.query("DELETE FROM users WHERE id_user = $1", [id]);
+}
+
+export async function updateUser(
+    id: number,
+    data: { saldo?: number; role?: string }
+) {
+    await pool.query(
+        `UPDATE users
+         SET saldo = COALESCE($1, saldo),
+             role = COALESCE($2, role)
+         WHERE id_user = $3`,
+        [data.saldo ?? null, data.role ?? null, id]
+    );
+
+    return { message: "User updated" };
+}
