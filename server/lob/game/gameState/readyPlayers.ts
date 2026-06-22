@@ -1,0 +1,1 @@
+export const readyPlayers = new Map<number, Set<number>>();

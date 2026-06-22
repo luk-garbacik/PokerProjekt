@@ -1,0 +1,53 @@
+Uruchomienie STRIPE WAZNE W HUJ
+stripe listen --forward-to localhost:5000/stripe-webhook
+
+Start serwera (backend):
+npx ts-node index.ts
+
+Start klienta (Frontend):
+npm start -- --host  0.0.0.0
+
+Instalacja pg:
+npm install pg
+
+Instalacja axios:
+npm install axios
+
+Instalacja bccrpyt
+npm install bcrypt
+
+Instalacja ReactRouter
+npm install react-router-dom
+npm install --save-dev @types/react-router-dom
+
+Instalacja clsx
+npm install clsx
+
+Instalacja hammerjs
+npm install hammerjs
+
+Start migracja:
+npx ts-node migrate.ts
+
+Logowanie do bazy pokerdb:
+psql -U postgres -d pokerdb
+
+Lista tabel:
+\dt
+
+Usuwanie poker_lobby
+TRUNCATE TABLE player_lobby;
+
+SELECT * FROM player_lobby;
+SELECT * FROM users;
+
+
+DELETE FROM player_lobby
+WHERE player_id=;
+
+Zerwowanie poker_lobby
+UPDATE poker_lobby SET current_players = 0;
+UPDATE users SET saldo = 200;
+Dodac animacje.
+Jezeli wygrana przez spasowanie to nie pokazuje kart. 
+
