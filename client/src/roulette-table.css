@@ -1,0 +1,63 @@
+/* --- OGÓLNE POLE STOŁU --- */
+.roulette-table {
+  background: linear-gradient(135deg, #0a5a2a, #0d7a38);
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.55);
+  max-width: 1000px;
+  margin: 0 auto;
+  border: 4px solid #0b3d1d;
+}
+
+/* Sekcja suwaka */
+.bet-slider-area {
+  background: rgba(0,0,0,0.25);
+  padding: 14px 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+/* Ogólny styl pól */
+.roulette-tile {
+  padding: 10px 0;
+  font-weight: 700;
+  border-radius: 6px;
+  text-shadow: 0 0 6px rgba(0,0,0,0.7);
+  font-size: 16px;
+  border: 2px solid rgba(255,255,255,0.15);
+  transition: transform 0.08s ease, box-shadow 0.1s ease;
+}
+
+.roulette-tile:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 10px rgba(255,255,255,0.35);
+}
+
+/* Czarny i czerwony */
+.tile-black {
+  background: #111;
+}
+
+.tile-red {
+  background: #c1121f;
+}
+
+.tile-green {
+  background: #0a8f3a;
+}
+
+/* "2 to 1" i tuziny */
+.tile-gray {
+  background: #505050;
+}
+
+.tile-control {
+  background: #c9a227;
+  border: 2px solid rgba(0,0,0,0.3);
+  color: black;
+}
+
+.tile-control:hover {
+  box-shadow: 0 0 10px rgba(255,255,0,0.8);
+  transform: scale(1.06);
+}

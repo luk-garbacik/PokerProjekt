@@ -1,0 +1,404 @@
+/* =========================================
+   TRUE MOBILE ROULETTE EXPERIENCE
+========================================= */
+
+@media (max-width: 768px) {
+
+    /* =========================================
+       MAIN LAYOUT
+    ========================================= */
+
+    .w-full.flex.flex-row.items-start.justify-center.gap-36.py-10 {
+        height: auto !important;
+        min-height: fit-content !important;
+        display: flex !important;
+
+        flex-direction: column !important;
+
+        align-items: center !important;
+
+        justify-content: flex-start !important;
+
+        gap: 0 !important;
+
+        padding-top: 0 !important;
+
+        padding-bottom: 0 !important;
+    }
+
+    /* =========================================
+       HIDE SIDE PANELS
+    ========================================= */
+
+    .w-1\/5.bg-neutral-800\/60 {
+
+        display: none !important;
+    }
+
+    /* =========================================
+       ROULETTE WHEEL CONTAINER
+    ========================================= */
+
+    .roulette-wheel-container {
+
+        order: 1;
+
+        width: 100% !important;
+
+        max-width: 500px !important;
+
+        height: auto !important;
+
+        min-height: 360px !important;
+
+        aspect-ratio: 1 / 1;
+
+        display: flex !important;
+
+        align-items: center !important;
+
+        justify-content: center !important;
+
+        overflow: visible !important;
+
+        margin: 0 auto !important;
+
+        position: relative;
+    }
+    /* =========================================
+       OUTER WHEEL
+    ========================================= */
+
+    .absolute.inset-0.m-auto.w-\[490px\].h-\[490px\].rounded-full {
+
+        width: 330px !important;
+
+        height: 330px !important;
+
+        box-shadow:
+                0 0 35px rgba(0,0,0,0.55),
+                inset 0 0 20px rgba(255,255,255,0.12) !important;
+    }
+
+    /* =========================================
+       INNER WHEEL
+    ========================================= */
+
+    .absolute.inset-0.m-auto.w-\[480px\].h-\[480px\].rounded-full {
+
+        width: 312px !important;
+
+        height: 312px !important;
+    }
+
+    /* =========================================
+       SLOT TRIANGLES
+    ========================================= */
+
+    .absolute.bottom-1\/2.origin-bottom.-translate-x-1\/2.-translate-y-full {
+
+        border-left: 13px solid transparent !important;
+
+        border-right: 13px solid transparent !important;
+
+        border-top-width: 158px !important;
+    }
+
+    /* =========================================
+       SLOT NUMBERS
+    ========================================= */
+
+    .drop-shadow-\[0_0_4px_rgba\(0\,0\,0\,0\.8\)\] {
+
+        font-size: 9px !important;
+
+        bottom: 140px !important;
+    }
+
+    /* =========================================
+       BALL
+    ========================================= */
+
+    .absolute.top-1\/2.left-1\/2.w-6.h-6.rounded-full.z-50 {
+
+        width: 18px !important;
+
+        height: 18px !important;
+
+        transform-origin: center center !important;
+
+    }
+
+    /* =========================================
+       CENTER RESULT
+    ========================================= */
+
+    .text-4xl.font-extrabold.tracking-wide {
+
+        font-size: 20px !important;
+    }
+
+    /* =========================================
+       TIMER
+    ========================================= */
+
+    .text-center.text-2xl.font-bold.mb-4 {
+
+        position: absolute;
+
+        top: 10px;
+
+        left: 50%;
+
+        transform: translateX(-50%);
+
+        z-index: 999;
+
+        font-size: 12px !important;
+
+        padding: 6px 12px;
+
+        border-radius: 999px;
+
+        background:
+                rgba(0,0,0,0.55);
+
+        backdrop-filter: blur(10px);
+    }
+
+    /* =========================================
+       BETTING TABLE
+    ========================================= */
+
+    .roulette-table {
+        width: 100% !important;
+        max-width: 100% !important;
+
+        padding: 8px !important;
+        margin-top: 10px !important;
+
+        border-width: 2px !important;
+        border-radius: 14px !important;
+
+        overflow-x: auto !important;
+
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .bet-slider-area {
+        padding: 8px 10px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .bet-slider-area span {
+        font-size: 12px !important;
+    }
+
+    .bet-slider-area input[type="range"] {
+        width: 100% !important;
+    }
+
+
+    .tile-control {
+        font-size: 10px !important;
+    }
+
+      /* =========================
+         UNIVERSAL TILE STYLE
+      ========================= */
+
+      .roulette-tile {
+        min-height: 52px !important;
+
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 13px !important;
+        font-weight: 500;
+        padding: 2px !important;
+        border-radius: 18px !important;
+
+        border: 1px solid rgba(255,255,255,0.08) !important;
+
+        transition:
+          transform .15s ease,
+          box-shadow .15s ease,
+          border-color .15s ease;
+
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .roulette-tile:active {
+        transform: scale(0.94);
+      }
+
+      /* =========================
+         ROULETTE NUMBER
+      ========================= */
+      .roulette-number {
+          height: 13px !important;
+      }
+      /* =========================
+         RED TILE
+      ========================= */
+
+      .tile-red {
+        background:
+          linear-gradient(
+            180deg,
+            #ff425d,
+            #be0d26
+          ) !important;
+
+        box-shadow:
+          0 8px 20px rgba(255,66,93,0.30);
+      }
+
+      /* =========================
+         BLACK TILE
+      ========================= */
+
+      .tile-black {
+        background:
+          linear-gradient(
+            180deg,
+            #262b34,
+            #0f1218
+          ) !important;
+
+        box-shadow:
+          0 8px 20px rgba(0,0,0,0.45);
+      }
+
+      /* =========================
+         GREEN TILE
+      ========================= */
+
+      .tile-green {
+        background:
+          linear-gradient(
+            180deg,
+            #12d876,
+            #06793d
+          ) !important;
+
+        box-shadow:
+          0 8px 20px rgba(18,216,118,0.35);
+      }
+
+      /* =========================
+         GRAY TILE
+      ========================= */
+
+      .tile-gray {
+        background:
+          linear-gradient(
+            180deg,
+            #434857,
+            #232732
+          ) !important;
+      }
+
+      /* =========================
+         CONTROL BUTTONS
+      ========================= */
+
+      .tile-control {
+        background:
+          linear-gradient(
+            180deg,
+            #ffd978,
+            #d5a21c
+          ) !important;
+
+        color: #111 !important;
+
+        box-shadow:
+          0 8px 20px rgba(255,217,120,0.35);
+      }
+
+      /* =========================
+         SELECTED TILE
+      ========================= */
+
+      .roulette-tile.active,
+      .roulette-tile.selected,
+      .roulette-tile[data-selected="true"] {
+        border-color: rgba(0,255,255,0.9) !important;
+
+        box-shadow:
+          0 0 0 1px rgba(0,255,255,0.9),
+          0 0 25px rgba(0,255,255,0.55),
+          0 0 50px rgba(0,255,255,0.20);
+
+        transform: translateY(-1px);
+      }
+
+      /* =========================
+         NUMBER TILES
+      ========================= */
+
+      .roulette-number,
+      .number-tile {
+        min-height: 32px;
+
+        font-size: 12px;
+        font-weight: 800;
+
+        border-radius: 16px;
+      }
+
+      /* =========================
+         HOVER ONLY ON DEVICES
+      ========================= */
+
+      @media (hover: hover) {
+
+        .roulette-tile:hover {
+          transform: translateY(-2px);
+
+          box-shadow:
+            0 10px 24px rgba(0,0,0,0.35);
+        }
+      }
+
+      /* =========================
+         SMOOTH APPEARANCE
+      ========================= */
+
+      .roulette-table * {
+        animation-duration: .2s;
+        animation-timing-function: ease;
+      }
+
+      /* =========================
+         SCROLLBAR
+      ========================= */
+
+      ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.18);
+        border-radius: 999px;
+      }
+
+
+}
+
+html,
+body {
+
+    overflow: visible !important;
+
+    min-height: 100%;
+}
+
+main {
+
+    overflow: visible !important;
+}

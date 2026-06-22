@@ -1,0 +1,208 @@
+/* PokerTable.module.css */
+
+/* Wygląd pojedynczej karty */
+.deckAnimation {
+  width: 80px;
+  height: 120px;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background: white;
+  background-image:
+          repeating-linear-gradient(
+                  0deg,
+                  transparent,
+                  transparent 2px,
+                  rgba(200, 200, 200, 0.1) 2px,
+                  rgba(200, 200, 200, 0.1) 4px
+          ),
+          linear-gradient(145deg, #ffffff, #f5f5f5);
+  border: 2px solid #d4d4d4;
+  position: relative;
+  transform-origin: center center;
+  backface-visibility: hidden;
+}
+
+/* Wzór na odwrocie karty */
+.deckAnimation::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background:
+          radial-gradient(circle at 20% 30%, #1e40af 0%, transparent 50%),
+          radial-gradient(circle at 80% 70%, #991b1b 0%, transparent 50%),
+          repeating-conic-gradient(from 0deg at 50% 50%, #1e3a8a 0deg 15deg, #7c2d12 15deg 30deg);
+  border-radius: 0.25rem;
+  opacity: 0.8;
+}
+
+/* Stan tasowania - wiele kart */
+.shuffling {
+  position: relative;
+  width: 80px;
+  height: 120px;
+  transform-style: preserve-3d;
+  animation: mainShuffle 2s ease-in-out;
+}
+
+/* Animacja głównego ruchu podczas tasowania */
+@keyframes mainShuffle {
+  0%, 100% {
+    transform: translateY(0) rotateZ(0deg);
+  }
+  25% {
+    transform: translateY(-15px) rotateZ(-8deg);
+  }
+  50% {
+    transform: translateY(0) rotateZ(5deg);
+  }
+  75% {
+    transform: translateY(-10px) rotateZ(-3deg);
+  }
+}
+
+/* Symulacja wielu kart w talii */
+.shuffling::before,
+.shuffling::after {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 120px;
+  border-radius: 0.5rem;
+  background: white;
+  border: 2px solid #d4d4d4;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.shuffling::before {
+  top: -3px;
+  left: -2px;
+  transform: rotateZ(-2deg);
+  z-index: -1;
+  animation: cardSpread1 2s ease-in-out infinite;
+}
+
+.shuffling::after {
+  top: -6px;
+  left: 2px;
+  transform: rotateZ(3deg);
+  z-index: -2;
+  animation: cardSpread2 2s ease-in-out infinite;
+}
+
+/* Animacja rozrzucania górnych kart */
+@keyframes cardSpread1 {
+  0%, 100% {
+    transform: rotateZ(-2deg) translateX(0);
+  }
+  20% {
+    transform: rotateZ(-15deg) translateX(-30px) translateY(-10px);
+  }
+  40% {
+    transform: rotateZ(10deg) translateX(25px) translateY(-5px);
+  }
+  60% {
+    transform: rotateZ(-8deg) translateX(-20px) translateY(-8px);
+  }
+  80% {
+    transform: rotateZ(5deg) translateX(15px) translateY(-3px);
+  }
+}
+
+@keyframes cardSpread2 {
+  0%, 100% {
+    transform: rotateZ(3deg) translateX(0);
+  }
+  15% {
+    transform: rotateZ(18deg) translateX(35px) translateY(-15px);
+  }
+  35% {
+    transform: rotateZ(-12deg) translateX(-28px) translateY(-8px);
+  }
+  55% {
+    transform: rotateZ(10deg) translateX(22px) translateY(-12px);
+  }
+  75% {
+    transform: rotateZ(-6deg) translateX(-18px) translateY(-5px);
+  }
+}
+
+/* Animacja rozdawania - karty lecą do graczy */
+.dealing {
+  position: relative;
+  width: 80px;
+  height: 120px;
+  animation: dealCard 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transform-style: preserve-3d;
+}
+
+@keyframes dealCard {
+  0% {
+    transform: translateY(0) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-80px) rotateY(180deg) scale(0.8);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-150px) rotateY(360deg) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Efekt świetlny podczas tasowania */
+.shuffling {
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.5));
+  animation: mainShuffle 2s ease-in-out, glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.6));
+  }
+}
+
+/* Animacja fade zwycięzcy */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.8);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0) scale(1.1);
+  }
+  15% {
+    transform: translateY(0) scale(1);
+  }
+  85% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.9);
+  }
+}
+
+.animate-fadeInOut {
+  animation: fadeInOut 5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Dodatkowe cząsteczki podczas tasowania */
+.shuffling {
+  position: relative;
+}
+
+/* Opcjonalnie: efekt rozmycia ruchu */
+@keyframes motionBlur {
+  0%, 100% {
+    filter: blur(0px);
+  }
+  50% {
+    filter: blur(2px);
+  }
+}
