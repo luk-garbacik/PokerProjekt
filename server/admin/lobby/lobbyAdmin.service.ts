@@ -37,8 +37,9 @@ export async function kickPlayer(lobbyId: number, playerId: number) {
         // 4️⃣ aktualizacja listy graczy
         await emitFullPlayers(io, lobbyId);
 
-        return { message: "Gracz usunięty z lobby" };
+        io.emit("adminLobbyUpdated");
 
+        return { message: "Gracz usunięty z lobby" };
     } catch (err) {
         await client.query("ROLLBACK");
         throw err;
@@ -128,8 +129,9 @@ export async function updateLobby(
             status: data.status,
         });
 
-        return { message: "Lobby zaktualizowane" };
+        io.emit("adminLobbyUpdated");
 
+        return { message: "Lobby zaktualizowane" };
     } catch (err) {
         await client.query("ROLLBACK");
         throw err;

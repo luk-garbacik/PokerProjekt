@@ -1,5 +1,3 @@
-https://mailtrap.io/inboxes/4429098/messages/5366737247
-
 https://dashboard.stripe.com/acct_1T76wfBic7xPRN3B/test/dashboard
 
 .\stripe_1.37.2_windows_x86_64\stripe.exe --version

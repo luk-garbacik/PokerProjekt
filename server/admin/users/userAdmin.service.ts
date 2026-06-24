@@ -16,14 +16,13 @@ export async function deleteUser(id: number) {
 
 export async function updateUser(
     id: number,
-    data: { saldo?: number; role?: string }
+    data: { role?: string }
 ) {
     await pool.query(
         `UPDATE users
-         SET saldo = COALESCE($1, saldo),
-             role = COALESCE($2, role)
-         WHERE id_user = $3`,
-        [data.saldo ?? null, data.role ?? null, id]
+         SET role = COALESCE($1, role)
+         WHERE id_user = $2`,
+        [data.role ?? null, id]
     );
 
     return { message: "User updated" };

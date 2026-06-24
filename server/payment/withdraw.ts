@@ -1,6 +1,7 @@
 import { pool } from "../db/db.ts";
 import type { Request, Response } from "express";
 import type { AuthRequest } from "../middleware/requireAuth.ts";
+import { getIO } from "../socketInstance.ts";
 
 export async function withdraw(req: AuthRequest, res: Response) {
     const userId = req.user!.id;
@@ -40,6 +41,7 @@ export async function withdraw(req: AuthRequest, res: Response) {
              VALUES ($1, 'withdraw', $2, 'pending')`,
             [userId, amountNumber]
         );
+        getIO().emit("withdrawCreated");
 
         await pool.query("COMMIT");
 

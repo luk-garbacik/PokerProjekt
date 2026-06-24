@@ -1,6 +1,7 @@
 import {pool} from "../../db/db.ts";
 import type { Request, Response } from "express";
 import { getPendingWithdraws, getPaymentHistory } from "./withdrawAdmin.service.ts";
+import { getIO } from "../../socketInstance.ts";
 export async function approveWithdraw(req: Request, res: Response) {
 
     const id = Number(req.params.id);
@@ -39,8 +40,9 @@ export async function approveWithdraw(req: Request, res: Response) {
 
         await pool.query("COMMIT");
 
-        res.json({ success: true });
+        getIO().emit("withdrawUpdated");
 
+        res.json({ success: true });
     } catch (err) {
 
         await pool.query("ROLLBACK");
@@ -106,8 +108,9 @@ export async function rejectWithdraw(req: Request, res: Response) {
 
         await pool.query("COMMIT");
 
-        res.json({ success: true });
+        getIO().emit("withdrawUpdated");
 
+        res.json({ success: true });
     } catch (err) {
         await pool.query("ROLLBACK");
         res.status(500).json({ error: "Błąd serwera" });

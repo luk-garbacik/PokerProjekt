@@ -8,6 +8,8 @@ import { joinAttachSocket } from "./join.attachSocket.ts";
 import { emitJoinSnapshot } from "./join.emitSnapshot.ts";
 import { handleJoinDuringIdleGame } from "./join.tryResumeGame.ts";
 
+import { getIO } from "../../socketInstance.ts";
+
 export async function handleJoinLobby(
     io: Server,
     socket: Socket,
@@ -41,7 +43,7 @@ export async function handleJoinLobby(
         await client.query("COMMIT");
 
         joinAttachSocket(socket, lobbyId, playerId);
-
+        getIO().emit("adminLobbyUpdated");
         const snapshot = await emitJoinSnapshot(io, socket, lobbyId);
 
         ack?.({ ok: true, ...snapshot });

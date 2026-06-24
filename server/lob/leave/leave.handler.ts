@@ -7,7 +7,7 @@ import { socketMeta } from "../infra/socketMeta.ts";
 import { gameStates } from "../game/gameState/gameState.ts";
 import { startTurnTimer } from "../game/flow/turnTimer.ts";
 import { readyPlayers } from "../game/gameState/readyPlayers.ts";
-
+import { getIO } from "../../socketInstance.ts";
 export async function leaveLobbyHandler(io, socket, payload) {
     const { lobbyId, playerId } = payload;
     const client = await pool.connect();
@@ -21,12 +21,11 @@ export async function leaveLobbyHandler(io, socket, payload) {
         }
 
         await leaveLobbyTransaction(client, lobbyId, playerId);
-
         await client.query("COMMIT");
 
         socket.leave(`lobby_${lobbyId}`);
         socket.leave(`player_${playerId}`);
-        console.error("leaveLobby :");
+        getIO().emit("adminLobbyUpdated");
 
         const meta = socketMeta.get(socket.id);
         meta?.lobbies.delete(lobbyId);
