@@ -330,6 +330,22 @@
 
             useEffect(() => {
                 const params = new URLSearchParams(window.location.search);
+                const verified = params.get("verified");
+
+                if (verified === "false") {
+                    alert("Weryfikacja nie powiodła się. Token jest nieprawidłowy lub wygasł.");
+                }
+
+                if (verified === "true") {
+                    alert("Email został potwierdzony!");
+
+                    // Czyścimy pasek adresu z parametru ?verified=true, aby alert nie wyskakiwał po odświeżeniu
+                    window.history.replaceState({}, document.title, "/");
+                }
+            }, []);
+
+            useEffect(() => {
+                const params = new URLSearchParams(window.location.search);
                 const tokenFromUrl = params.get("token");
 
                 if (tokenFromUrl) {

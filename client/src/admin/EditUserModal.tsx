@@ -32,7 +32,6 @@ export default function EditUserModal({
     const validate = () => {
         if (!form.nickname.trim()) return "Nickname jest wymagany";
         if (!form.email.includes("@")) return "Niepoprawny email";
-        if (form.saldo < 0) return "Saldo nie może być ujemne";
         return "";
     };
 
@@ -98,15 +97,6 @@ export default function EditUserModal({
                         value={form.email}
                         onChange={(v) =>
                             setForm({ ...form, email: v })
-                        }
-                    />
-
-                    <InputField
-                        label="Saldo"
-                        type="number"
-                        value={form.saldo}
-                        onChange={(v) =>
-                            setForm({ ...form, saldo: Number(v) })
                         }
                     />
 

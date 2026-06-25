@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import EditLobbyModal from "./admin/EditLobbyModal";
 import EditUserModal, {User} from "./admin/EditUserModal";
 import PaymentHistoryModal from "./admin/paymentHistoryModal";
+import { socket } from "./socket";
 type Props = {
     onLogout: () => void;
 };
@@ -228,6 +229,27 @@ const [showPaymentHistory, setShowPaymentHistory] = useState(false);
         }
     }, [activeView]);
 
+    useEffect(() => {
+        socket.on("withdrawCreated", fetchWithdraws);
+        socket.on("withdrawUpdated", fetchWithdraws);
+
+        return () => {
+            socket.off("withdrawCreated");
+            socket.off("withdrawUpdated");
+        };
+    }, []);
+
+    useEffect(() => {
+        socket.on("adminLobbyUpdated", () => {
+            if (activeView === "lobbies") {
+                fetchLobbies();
+            }
+        });
+
+        return () => {
+            socket.off("adminLobbyUpdated");
+        };
+    }, [activeView]);
 
     const renderContent = () => {
         switch (activeView) {
