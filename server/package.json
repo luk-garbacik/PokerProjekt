@@ -4,10 +4,13 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node index.ts"
+    "migrate": "npx tsx ./db/migrate.ts",
+    "seed": "npx tsx ./db/seed.ts",
+    "start": "npm run migrate && npm run seed && npx tsx index.ts"
   },
   "dependencies": {
     "axios": "^1.13.6",
+    "bcrypt": "^5.1.1",
     "dotenv": "^17.3.1",
     "express": "^4.19.0",
     "jsonwebtoken": "^9.0.3",

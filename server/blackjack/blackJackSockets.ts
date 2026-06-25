@@ -2,10 +2,10 @@
 
 import { Server, Socket } from "socket.io";
 import { pool } from "../db/db.ts";
-import { createDeck, handValue } from "./blackjackLogic.ts";
+import { createDeck, handValue } from "./blackJackLogic.ts";
 import type {BJHand,BJState ,Card } from "./blackJackTypes.ts";
-import { applyBlackJackPayout } from "./blackjackPayout.ts";
-import { applyBlackJackBet } from "./blackjackBet.ts";
+import { applyBlackJackPayout } from "./blackJackPayout.ts";
+import { applyBlackJackBet } from "./blackJackBet.ts";
 
 const games = new Map<number, BJState>();
 const BJ_BLACKJACK_PAYOUT = 2.5;

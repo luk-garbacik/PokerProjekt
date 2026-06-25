@@ -1,38 +1,27 @@
+// server/db/migrate.ts
 import { Pool } from 'pg';
 
 async function migrate() {
+  // Pobieramy dane ze zmiennych środowiskowych (wstrzykiwanych przez Docker)
+  // z domyślnymi wartościami identycznymi jak w db.ts
+  const user = process.env.PGUSER || 'poker_user';
+  const host = process.env.PGHOST || 'db'; // W sieci dockerowej hostem jest nazwa usługi, czyli 'db'
+  const database = process.env.PGDATABASE || 'pokerdb'; // spójna nazwa bez podkreślenia
+  const password = process.env.PGPASSWORD || 'poker_password';
+  const port = parseInt(process.env.PGPORT || '5432', 10);
+
+  const pool = new Pool({
+    user,
+    host,
+    database,
+    password,
+    port,
+  });
+
   try {
-    // 1. Połączenie do domyślnej bazy postgres, żeby ewentualnie utworzyć pokerdb
-    const defaultPool = new Pool({
-      user: 'postgres',
-      host: 'localhost',
-      database: 'postgres',
-      password: 'admin',
-      port: 5432,
-    });
+    console.log(`Rozpoczynanie migracji na bazie danych: ${database}...`);
 
-    try {
-      await defaultPool.query('CREATE DATABASE pokerdb');
-      console.log('Baza pokerdb utworzona!');
-    } catch (err: any) {
-      if (err.code === '42P04') {
-        console.log('Baza pokerdb już istnieje, kontynuuję...');
-      } else {
-        throw err;
-      }
-    }
-    await defaultPool.end();
-
-    // 2. Połączenie do docelowej bazy pokerdb
-    const pool = new Pool({
-      user: 'postgres',
-      host: 'localhost',
-      database: 'pokerdb',
-      password: 'admin',
-      port: 5432,
-    });
-
-    // 3. Tworzenie tabeli użytkowników
+    // 1. Tworzenie tabeli użytkowników
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         id_user SERIAL PRIMARY KEY,
@@ -44,29 +33,25 @@ async function migrate() {
         verification_token TEXT
         );
     `);
+    console.log('Tabela users utworzona!');
 
-    console.log('Tabela uzytkownicy utworzona!');
-
-    // Kolumny
+    // Dodawanie brakujących kolumn
     await pool.query(`
       ALTER TABLE users
-        ADD COLUMN IF NOT EXISTS email VARCHAR(100),
         ADD COLUMN IF NOT EXISTS phone VARCHAR(20),
         ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
     `);
 
-    // Dodanie kolumny role
     await pool.query(`
       ALTER TABLE users
         ADD COLUMN IF NOT EXISTS role VARCHAR(20) DEFAULT 'user';
     `);
 
-    // Kolumny do resetu hasła
     await pool.query(`
-  ALTER TABLE users
-    ADD COLUMN IF NOT EXISTS reset_token TEXT,
-    ADD COLUMN IF NOT EXISTS reset_token_expire TIMESTAMP;
-`);
+      ALTER TABLE users
+        ADD COLUMN IF NOT EXISTS reset_token TEXT,
+        ADD COLUMN IF NOT EXISTS reset_token_expire TIMESTAMP;
+    `);
 
     await pool.query(`
     DO $$
@@ -97,8 +82,8 @@ async function migrate() {
         END
       $$;
     `);
-    // Constraint
-        await pool.query(`
+
+    await pool.query(`
       DO $$
         BEGIN
           IF NOT EXISTS (
@@ -112,7 +97,7 @@ async function migrate() {
       $$;
     `);
 
-    // 4. Tworzenie tabeli poker_lobby
+    // 2. Tworzenie tabeli poker_lobby
     await pool.query(`
       CREATE TABLE IF NOT EXISTS poker_lobby (
         id_lobby SERIAL PRIMARY KEY,
@@ -140,7 +125,7 @@ async function migrate() {
     `);
     console.log('Tabela player_lobby utworzona!');
 
- // 5. Tabela rund ruletki
+    // 3. Tabela rund ruletki
     await pool.query(`
       CREATE TABLE IF NOT EXISTS roulette_rounds (
         id SERIAL PRIMARY KEY,
@@ -155,7 +140,7 @@ async function migrate() {
     `);
     console.log('Tabela roulette_rounds utworzona!');
 
-    // 6. Tabela zakładów
+    // 4. Tabela zakładów
     await pool.query(`
       CREATE TABLE IF NOT EXISTS roulette_bets (
         id SERIAL PRIMARY KEY,
@@ -167,32 +152,29 @@ async function migrate() {
         created_at TIMESTAMP DEFAULT NOW()
       );
     `);
-    console.log('Tabela bets utworzona!');
+    console.log('Tabela roulette_bets utworzona!');
 
-    // 6. Tabela tranzakcji
+    // 5. Tabela transakcji
     await pool.query(`
       CREATE TABLE IF NOT EXISTS transactions (
         id SERIAL PRIMARY KEY,
         user_id INT REFERENCES users(id_user) ON DELETE CASCADE,
-        type VARCHAR(20) NOT NULL, -- deposit / withdraw
+        type VARCHAR(20) NOT NULL,
         amount NUMERIC NOT NULL,
-        status VARCHAR(20) DEFAULT 'pending', -- pending/completed/failed
+        status VARCHAR(20) DEFAULT 'pending',
         provider VARCHAR(20) DEFAULT 'sandbox',
         external_id VARCHAR(100),
         created_at TIMESTAMP DEFAULT NOW()
         );
     `);
-    console.log('Tabela tranzakcji utworzona!');
+    console.log('Tabela transakcji utworzona!');
 
     await pool.end();
-    
     console.log('Migracja zakończona sukcesem!');
   } catch (err) {
     console.error('Błąd migracji:', err);
+    process.exit(1); // ONA PRZERYWA PROCES, dzięki czemu skrypt startowy nie przejdzie dalej w razie awarii
   }
-
-  
 }
 
 migrate();
-

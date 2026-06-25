@@ -1,0 +1,45 @@
+services:
+  # Baza Danych PostgreSQL
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: poker_user
+      POSTGRES_PASSWORD: poker_password
+      POSTGRES_DB: poker_db
+    ports:
+      - "5432:5432"
+
+  # Twój backend (Node.js)
+  server:
+    build: ./server
+    ports:
+      - "5000:5000"
+    environment:
+      - PGHOST=db
+      - PGUSER=poker_user
+      - PGPASSWORD=poker_password
+      - PGDATABASE=poker_db
+      - PGPORT=5432
+    env_file:
+      - ./server/.env
+    depends_on:
+      - db
+
+  # Twój frontend (React)
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"
+    environment:
+      - WDS_SOCKET_PORT=0
+      - REACT_APP_API_URL=http://localhost:5000
+    depends_on:
+      - server
+
+  stripe:
+    image: stripe/stripe-cli:latest
+    command: [ "listen", "--api-key", "${STRIPE_SECRET_KEY}", "--forward-to", "http://server:5000/stripe-webhook" ]
+    env_file:
+      - ./server/.env
+    depends_on:
+      - server

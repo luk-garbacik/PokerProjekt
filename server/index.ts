@@ -22,7 +22,7 @@ import { setIO } from "./socketInstance.ts";
 
 import { initRoulette } from "./roulette/rouletteSockets.ts";
 
-import { initBlackJack } from "./blackjack/blackjackSockets.ts";
+import { initBlackJack } from "./blackjack/blackJackSockets.ts";
 
 import dotenv from "dotenv";
 

@@ -2,11 +2,11 @@
 import { Pool } from 'pg';
 
 export const pool = new Pool({
-  user: 'postgres',       // Twój użytkownik PostgreSQL
-  host: 'localhost',      
-  database: 'pokerdb',    // Docelowa baza danych
-  password: 'admin',      // Hasło do użytkownika
-  port: 5432,
+  user: process.env.PGUSER || 'poker_user',       // Twój użytkownik PostgreSQL
+  host: process.env.PGHOST || 'localhost',
+  database: process.env.PGDATABASE || 'pokerdb',    // Docelowa baza danych
+  password: process.env.PGPASSWORD || 'poker_password',      // Hasło do użytkownika
+  port: parseInt(process.env.PGPORT || '5432', 10),
 });
 
 // Funkcja pomocnicza do testowania połączenia

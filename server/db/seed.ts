@@ -1,18 +1,24 @@
-// server/seed.ts
+// server/db/seed.ts
 import { Pool } from "pg";
 import bcrypt from "bcrypt";
 
 async function seed() {
+  const user = process.env.PGUSER || 'poker_user';
+  const host = process.env.PGHOST || 'db';
+  const database = process.env.PGDATABASE || 'pokerdb';
+  const password = process.env.PGPASSWORD || 'poker_password';
+  const port = parseInt(process.env.PGPORT || '5432', 10);
+
   const pool = new Pool({
-    user: "postgres",
-    host: "localhost",
-    database: "pokerdb",
-    password: "admin",
-    port: 5432,
+    user,
+    host,
+    database,
+    password,
+    port,
   });
 
   try {
-    const plainPassword = "admin123"; // jedno hasło dla wszystkich
+    const plainPassword = "admin123";
     const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
     // 👑 ADMIN
@@ -58,6 +64,7 @@ async function seed() {
     await pool.end();
   } catch (err) {
     console.error("Błąd seedowania:", err);
+    process.exit(1); // Blokuje dalsze wykonywanie skryptów w package.json w razie błędu
   }
 }
 
