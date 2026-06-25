@@ -14,7 +14,7 @@ export async function verifyEmail(req: Request, res: Response) {
     );
 
     if (result.rows.length === 0) {
-        return res.status(400).send("Nieprawidłowy lub wygasły token.");
+        returnres.redirect("http://localhost:3000?verified=false");
     }
 
     await pool.query(
@@ -25,5 +25,5 @@ export async function verifyEmail(req: Request, res: Response) {
         [token]
     );
 
-    return res.send("Email został zweryfikowany. Możesz się zalogować.");
+    return res.redirect("http://localhost:3000?verified=true");
 }
